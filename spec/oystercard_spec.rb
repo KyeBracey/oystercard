@@ -18,7 +18,7 @@ describe Oystercard do
         expect{ oystercard.top_up 10 }.to change{ oystercard.balance }.by 10
       end
 
-      it 'raises and error if top_up exceeds the maximum monetary balance' do
+      it 'raises an error if top_up exceeds the maximum monetary balance' do
         oystercard.top_up(Oystercard::BALANCE_LIMIT)
         expect{ oystercard.top_up 1 }.to raise_error "Maximum balance of £#{Oystercard::BALANCE_LIMIT} exceeded"
       end
@@ -33,10 +33,6 @@ describe Oystercard do
 
         it 'allows a user to touch in' do
           expect(oystercard).to be_in_journey
-        end
-
-        it 'remembers the entry station' do
-          expect(oystercard.entry_station).to eq :entry_station
         end
       end
 
@@ -63,11 +59,6 @@ describe Oystercard do
 
       it 'deducts the fare from the balance of the oystercard' do
         expect{ oystercard.touch_out(:station) }.to change{ oystercard.balance }.by(-Oystercard::MINIMUM_FARE)
-      end
-
-      it 'touching in and out should create one journey' do
-        oystercard.touch_out(:exit_station)
-        expect(oystercard.journeys).to include journey
       end
     end
 end
